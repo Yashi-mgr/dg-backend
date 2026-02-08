@@ -35,8 +35,7 @@ public class UserController {
         ResponseMessage response = userService.LoginUser(loginDTO);
 
         if (response.isSuccess()) {
-            String token = response.getToken();
-            return ResponseEntity.ok(token); // HTTP 200 OK
+            return ResponseEntity.ok(response); // HTTP 200 OK
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); // HTTP 401 Unauthorized
         }

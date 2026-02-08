@@ -1,11 +1,10 @@
 package com.dg.dental_guru.mapper;
 
 import com.dg.dental_guru.dto.UserDTO;
-import com.dg.dental_guru.model.Users;
 
 public class UserMapper {
-    public static Users mapToUser(UserDTO userDTO) {
-        return new Users(
+    public static User mapToUser(UserDTO userDTO) {
+        return new User(
                 userDTO.getUserId(),
                 userDTO.getName(),
                 userDTO.getEmail(),
@@ -14,7 +13,7 @@ public class UserMapper {
         );
     }
 
-    public static UserDTO mapToUserDTO(Users user) {
+    public static UserDTO mapToUserDTO(User user) {
         return new UserDTO(
                 user.getUserId(),
                 user.getName(),

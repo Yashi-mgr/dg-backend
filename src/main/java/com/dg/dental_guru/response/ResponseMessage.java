@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class ResponseMessage {
         String message;
         Boolean success;
-        String token;
 
         public boolean isSuccess() {
             return success;

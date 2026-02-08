@@ -1,14 +1,11 @@
 package com.dg.dental_guru.service.impls;
 
 import com.dg.dental_guru.Repository.UserRepo;
-import com.dg.dental_guru.config.JWTService;
 import com.dg.dental_guru.dto.LoginDTO;
 import com.dg.dental_guru.dto.UserDTO;
 import com.dg.dental_guru.mapper.UserMapper;
-import com.dg.dental_guru.model.Users;
 import com.dg.dental_guru.response.ResponseMessage;
 import com.dg.dental_guru.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,13 +14,11 @@ import java.util.Optional;
 public class UserServiceImpls implements UserService {
 
     private final UserRepo userRepo;
-    private final PasswordEncoder passwordEncoder;
-    private final JWTService jwtService;
+//    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpls(UserRepo userRepo, PasswordEncoder passwordEncoder, JWTService jwtService) {
+    public UserServiceImpls(UserRepo userRepo) {
         this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
+//   this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -36,26 +31,26 @@ public class UserServiceImpls implements UserService {
         if (phoneExists) {
             throw new RuntimeException("Phone number already exists");
         }
-        Users user = UserMapper.mapToUser(userDTO);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = UserMapper.mapToUser(userDTO);
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
         return "User " + user.getName() + " registered successfully";
     }
 
     @Override
     public ResponseMessage LoginUser(LoginDTO loginDTO) {
-        Optional<Users> user = userRepo.findByEmail(loginDTO.getEmail());
+        Optional<User> user = userRepo.findByEmail(loginDTO.getEmail());
         if (user.isPresent()) {
-            Users userDB = user.get();
-            Boolean passwordMatch = passwordEncoder.matches(loginDTO.getPassword(), userDB.getPassword());
+            User userDB = user.get();
+            Boolean passwordMatch = userDB.getPassword().equals(loginDTO.getPassword());
+//            Boolean passwordMatch = passwordEncoder.matches(loginDTO.getPassword(), userDB.getPassword());
             if (passwordMatch) {
-                String token = jwtService.generateToken(userDB);
-                return new ResponseMessage("Login successful.", true, token);
+                return new ResponseMessage("Login successful.", true);
             }else {
-                return new ResponseMessage("Incorrect password, Please try again.", false, null);
+                return new ResponseMessage("Incorrect password, Please try again.", false);
             }
         }else{
-            return new ResponseMessage("Email does not exist.", false, null);
+            return new ResponseMessage("Email does not exist.", false);
         }
     }
 
