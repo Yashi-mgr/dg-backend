@@ -27,7 +27,7 @@ public class JWTService {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         if (userDetails instanceof Users user) {
-            claims.put("customerId", user.getUserId());
+            claims.put("userId", user.getUserId());
             claims.put("name", user.getName());
 //            claims.put("role", user.getRole().name());
         }
@@ -98,6 +98,6 @@ public class JWTService {
     }
 
     public Integer extractUserId(String token) {
-        return extractClaims(token, claims -> claims.get("customerId", Integer.class));
+        return extractClaims(token, claims -> claims.get("userId", Integer.class));
     }
 }
