@@ -34,9 +34,13 @@ public class Users implements UserDetails {
     @Column(unique = true, nullable = false)
     private String phone;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(() -> "ROLE_" + role.name());
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.dg.dental_guru.config.JWTService;
 import com.dg.dental_guru.dto.LoginDTO;
 import com.dg.dental_guru.dto.UserDTO;
 import com.dg.dental_guru.mapper.UserMapper;
+import com.dg.dental_guru.model.UserRole;
 import com.dg.dental_guru.model.Users;
 import com.dg.dental_guru.response.ResponseMessage;
 import com.dg.dental_guru.service.UserService;
@@ -38,6 +39,7 @@ public class UserServiceImpls implements UserService {
         }
         Users user = UserMapper.mapToUser(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(UserRole.USER);
         userRepo.save(user);
         return "User " + user.getName() + " registered successfully";
     }

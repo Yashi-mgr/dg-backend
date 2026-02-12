@@ -1,5 +1,6 @@
 package com.dg.dental_guru.dto;
 
+import com.dg.dental_guru.model.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -26,4 +27,6 @@ public class UserDTO {
 
     @NotEmpty(message = "Phone number cannot be empty.")
     private String phone;
+
+    private UserRole role;
 }
